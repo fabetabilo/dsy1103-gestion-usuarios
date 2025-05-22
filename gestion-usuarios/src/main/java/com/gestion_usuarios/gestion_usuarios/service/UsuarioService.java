@@ -1,5 +1,6 @@
 package com.gestion_usuarios.gestion_usuarios.service;
 
+import com.gestion_usuarios.gestion_usuarios.model.Cargo;
 import com.gestion_usuarios.gestion_usuarios.model.Usuario;
 import com.gestion_usuarios.gestion_usuarios.repository.UsuarioRepository;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Service
 @Transactional
-
 public class UsuarioService {
     
     @Autowired
@@ -23,13 +23,21 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findByIdUsuario(Integer idUsuario) { 
+    public Usuario findByIdUsuario(long idUsuario) { 
         return usuarioRepository.findById(idUsuario).get();
     }
 
-    public Usuario save(Usuario usuario) { 
+    public Usuario saveUsuario(Usuario usuario) { 
         return usuarioRepository.save(usuario);
     }
 
+    public void deleteById(Long idUsuario) {
+        this.usuarioRepository.deleteById(idUsuario);
+    }
     
+    public List<Usuario> findByCargo(Cargo cargo) {
+        return this.usuarioRepository.findByCargo(cargo);
+    }
+
+
 }

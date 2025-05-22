@@ -44,7 +44,7 @@ public class Usuario {
     @Column(length = 100, nullable = false)
     private String direccionUsr;
 
-    // "cod_cargo" es el nombre de la columna en la base de datos, "codCargo"
+    // "cod_cargo" es el nombre de la columna en la base de datos, "codCargo" es el atributo en el modelo java Cargo
     @ManyToOne
     @JoinColumn(name = "cod_cargo", referencedColumnName = "codCargo", nullable = false)
     private Cargo cargo;
