@@ -135,6 +135,7 @@ public class UsuarioController {
         return ResponseEntity.ok(count);
     }
 
-
+// Falta -> Buscar por Salarios - Buscar por cargo.
+    // Crear Documentación.
 
 }
