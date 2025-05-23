@@ -39,5 +39,9 @@ public class UsuarioService {
         return this.usuarioRepository.findByCargo(cargo);
     }
 
+    public Long count() {
+        return usuarioRepository.count();
+    }
+
 
 }

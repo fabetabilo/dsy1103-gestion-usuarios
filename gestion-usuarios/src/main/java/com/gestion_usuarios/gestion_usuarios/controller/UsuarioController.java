@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class UsuarioController {
      *         en la base de datos.
      */
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long idUsuario) { 
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer idUsuario) { 
         try { 
             Usuario usuario = this.usuarioService.findByIdUsuario(idUsuario);
             return ResponseEntity.ok(usuario);
@@ -77,7 +78,8 @@ public class UsuarioController {
      * Método para modificar un usuario ya existente.
      * 
      * @RequestBody objeto JSON que contiene los datos del usuario a actualizar, incluyendo el idUsuario.
-     * @return ResponseEntity HTTP 200 OK con el usuario actualizado, o HTTP 400 Bad Request si no se puede actualizar el usuario
+     * @return ResponseEntity HTTP 200 OK con el usuario actualizado, o HTTP 404 Not Found si no se encuentra el usuario
+     *         en la base de datos.
      */
     @PutMapping("/{idUsuario}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer idUsuario, @RequestBody Usuario usuario) { 
@@ -100,14 +102,38 @@ public class UsuarioController {
             
         } catch (Exception e) {
             // Si no encuentra el usuario en la base de datos
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.notFound().build();
 
         }
     }
 
-    
+    /**
+     * Metodo para eliminar un usuario por el ID.
+     * @param idUsuario Id del usuario a eliminar.
+     * @return HTTP 200 OK si se elimina el usuario, o HTTP 404 Not Found si no se llega a encontrar.
+     * 
+     */
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity<?> deleteUsuario(@PathVariable Long idUsuario) { 
+        try { 
+            this.usuarioService.deleteById(idUsuario);
+            return ResponseEntity.ok(idUsuario); // OJO
+            // return ResponseEntity.noContent().build();
+        } catch (Exception e) { 
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-
+    /**
+     * Método para contar el número de usuarios existentes.
+     * @return HTTP 200 OK con el número de usuarios existentes.
+     * 
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countUsuarios() { 
+        Long count = usuarioService.count();
+        return ResponseEntity.ok(count);
+    }
 
 
 
