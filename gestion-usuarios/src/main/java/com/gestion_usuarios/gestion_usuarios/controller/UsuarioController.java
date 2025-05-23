@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gestion_usuarios.gestion_usuarios.model.Cargo;
 import com.gestion_usuarios.gestion_usuarios.model.Usuario;
 import com.gestion_usuarios.gestion_usuarios.service.UsuarioService;
 
@@ -134,8 +135,15 @@ public class UsuarioController {
         Long count = usuarioService.count();
         return ResponseEntity.ok(count);
     }
-
-// Falta -> Buscar por Salarios - Buscar por cargo.
-    // Crear Documentación.
-
+//BUSCAR POR CARGO:
+    @GetMapping("/cargo/{codCargo}")
+    public ResponseEntity<List<Usuario>> getStoresByCargo(@PathVariable Integer codCargo) {
+        Cargo cargo = new Cargo();
+        cargo.setCodCargo(codCargo);
+        List<Usuario> listaUsuariospc = this.usuarioService.findByCargo(cargo);
+        if (listaUsuariospc.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listaUsuariospc);
+    }
 }
